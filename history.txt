@@ -125,3 +125,102 @@ history
 history >history.txt
 history | cut -c 8-
 history | cut -c 8- > history.txt 
+
+
+
+###################  Docker network ###########################
+
+docker network ls 
+docker 
+docker network 
+docker network create web-net1
+docker network ls 
+docker network rm web-net1
+docker network ls 
+docker ps 
+docker run -dP nginx 
+docker ps 
+docker network inspect d5914e646930
+docker inspect d5914e646930
+docker inspect d5914e646930 | grep -i mode
+docker network create web-net
+docker network ls 
+docker run -dP --network web-net nginx 
+docker ps 
+docker inspect b119c33b25a9
+docker inspect b119c33b25a9 | grep -i web-net
+history 
+history | cut -c 8- -
+history | cut -c 8- 
+docker ps 
+docker network ls 
+docker network connect web-net d5914e646930 
+docker inspect d5914e646930 | grep -i web-net
+history | cut -c 8- 
+docker network inspect web-net
+docker network inspect bridge
+
+
+################ Host network ############
+docker rmi $(docker images -aq) -f
+docker rm $(docker ps -aq) -f
+docker rmi $(docker images -aq) -f
+docker images 
+docker run -d --network host httpd
+curl localhost
+docker ps 
+ip r
+docker container inspect f5292fd0dc36
+netstat -tulpn | grep :80
+history | cut -c 8-
+
+
+###### MacVlan Network ##################
+
+docker network ls 
+docker network create -d macvlan   --subnet=172.16.86.0/24   --gateway=172.16.86.1   -o parent=eth0   my-macvlan-net
+docker network ls 
+docker run --rm -dit   --network my-macvlan-net   --name my-macvlan-alpine   alpine:latest   ash
+docker ps 
+docker container inspect my-macvlan-alpine
+
+############################# Docker Swarm ####################################
+docker swarm init
+docker node ls 
+docker service ls 
+docker service create --name web --replicas 5 -P nginx 
+docker service create --name web --replicas 5 -p8080:80 nginx 
+docker service ls 
+docker service ps web
+docker ps 
+sudo docker service create --mode global --publish mode=host,target=80,published=8081 --name=service2 nginx:latest
+docker ps 
+curl localhost:8081
+
+docker swarm join-token worker
+
+
+######## Docker External DNS ############
+
+docker run nicolaka/netshoot nslookup google.com
+docker run--dns 8.8.8.8 nicolaka/netshoot nslookup google.com
+docker run --dns 8.8.8.8 nicolaka/netshoot nslookup google.com
+docker run --dns 8.8.4.4 nicolaka/netshoot nslookup facebook.com
+
+
+##### Docker  Overlay Network Creation  #####
+
+docker network create -d overlay nginx-net1
+docker network ls
+sudo docker service create --name nginx-service1 --publish target=80,published=80 --replicas=5 --network nginx-net1 nginx
+docker ps 
+docker service ls 
+docker service ps nginx-service1
+docker service inspect -180    Running             Running 54 seconds ago                       
+docker service inspect nginx-service1 
+docker service inspect nginx-service1 | grep -i nginx
+docker service inspect nginx-service1 | grep -i nginx-net1
+docker ps 
+docker inspect 7ed855c9b000
+docker network inspect nginx-net1
+docker service inspect nginx-service1
